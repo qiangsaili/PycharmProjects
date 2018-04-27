@@ -8,9 +8,14 @@ import random
 import string
 import xlrd,xlwt
 import csv
+import pymysql
 
 
 def Random_Active(lenght,num):
+	#创建数据库连接
+	conn = pymysql.connect(host='192.168.199.242', port=3306, user='root', password='iraindb10241GB', database='auto_test')
+	#创建数据库游标
+	cur = conn.cursor()
 	#准备写入csv文件
 	filehandle_csv = open('random_code.csv','a',newline= '')
 	#准备写入xls文件
@@ -36,12 +41,18 @@ def Random_Active(lenght,num):
 				list = [i,random_code]
 				filehandle_csv_write = csv.writer(filehandle_csv,dialect='excel')
 				filehandle_csv_write.writerow(list)
+				#写入数据mysql数据库
+				sql = "insert into active_randoms(id,code_num)values(%d,\'%s\')" % (i,random_code)
+				cur.execute(sql)
 			else:
 				i = i - 1
 			i = i + 1
 	filehandle_txt.close() #关闭TXT文件
 	filehandle_xls.save('random_code.xls')#保存xls文件
 	filehandle_csv.close() #关闭csv文件
+	cur.close()
+	conn.commit()
+	conn.close()
 	
 def jude_repeat(context):
 	file_read = open('random_code.txt', 'r')
