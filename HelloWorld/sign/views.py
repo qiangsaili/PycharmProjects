@@ -10,16 +10,16 @@ from django.shortcuts import render, get_object_or_404
 def index(request):
 	# return HttpResponse('Hello Django!!!')
 	return render(request, "index.html")
-#登录动作
+# 登录动作
 def login_action(request):
 	if request.method == 'POST':
 		username = request.POST.get('username', '')
-		password = request.POST.get('password', '')  #获取输入的用户名密码
-		user = auth.authenticate(username=username, password=password)  #认证用户名密码：通过返回对象，不通过返回None
+		password = request.POST.get('password', '')  # 获取输入的用户名密码
+		user = auth.authenticate(username=username, password=password)  # 认证用户名密码：通过返回对象，不通过返回None
 		if user is not None:
 			auth.login(request, user) #登录
-			# response.set_cookie('user', username, 3600)  #添加浏览器的cookies
-			request.session['user'] = username #将session的信息记录到浏览器
+			# response.set_cookie('user', username, 3600)  # 添加浏览器的cookies
+			request.session['user'] = username  # 将session的信息记录到浏览器
 			response = HttpResponseRedirect('/event_manage/')
 			return response
 		else:
@@ -27,9 +27,9 @@ def login_action(request):
 #发布会管理
 @login_required
 def event_manage(request):
-	# username = request.COOKIES.get('user', '')  #读取浏览器的cookies
+	# username = request.COOKIES.get('user', '')  # 读取浏览器的cookies
 	event_list = Event.objects.all()
-	username = request.session.get('user', '')  #读取浏览器的session
+	username = request.session.get('user', '')  # 读取浏览器的session
 	paginator_event = Paginator(event_list, 2)
 	page = request.GET.get('page')
 	try:
@@ -40,7 +40,7 @@ def event_manage(request):
 		contacts_event = paginator_event.page(paginator_event.num_pages)
 	return render(request, 'event_manage.html', {'user': username, 'events': contacts_event})
 
-#发布会名称搜索
+# 发布会名称搜索
 @login_required
 def search_name(request):
 	username = request.session.get('user', '')
@@ -48,7 +48,7 @@ def search_name(request):
 	event_list = Event.objects.filter(name__contains=search_name)
 	return render(request, "event_manage.html", {"user": username, "events": event_list})
 
-#嘉宾管理
+# 嘉宾管理
 @login_required
 def guest_manage(request):
 	username = request.session.get('user', '')
@@ -96,3 +96,9 @@ def sign_index_action(request, eid):
 		Guest.objects.filter(phone=phone,event_id=eid).update(sign='1')
 		return render(request, 'sign_index.html', {'event': event, 'hint': 'sign in success', 'guest': result})
 	
+# 退出登录
+@login_required
+def logout(request):
+	auth.logout(request)  # 退出登录
+	response = HttpResponseRedirect('/index/')
+	return  response

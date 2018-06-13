@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
+from django.conf.urls import url, include
 from sign import views
 
 urlpatterns = [
@@ -30,4 +30,6 @@ urlpatterns = [
     url(r'^search_name_guest/$', views.search_name_guest),
     url(r'^sign_index/(?P<eid>[0-9]+)/$', views.sign_index),
     url(r'^sign_index_action/(?P<eid>[0-9]+)/$', views.sign_index_action),
+    url(r'^logout/$', views.logout),
+    url(r'^sign/', include(('sign.urls', 'sign'), namespace='sign')),
 ]
