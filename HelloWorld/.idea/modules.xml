@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/HelloWorld.iml" filepath="$PROJECT_DIR$/.idea/HelloWorld.iml" />
+      <module fileurl="file://E:/workspace/arm-test/.idea/arm-test.iml" filepath="E:/workspace/arm-test/.idea/arm-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pyrequest/.idea/pyrequest.iml" filepath="$PROJECT_DIR$/../pyrequest/.idea/pyrequest.iml" />
     </modules>
   </component>
 </project>

@@ -22,6 +22,20 @@ def add_event(request):
 
 	if eid == '' or name == '' or limite == '' or start_time == '':
 		return JsonResponse({'status': 10021, 'message': 'parameter error'})
+	result = Event.objects.filter(id=eid)
+	if result:
+		return JsonResponse({'status':10022, 'message':'event id is already exists'})
+	result = Event.objects.filter(name=name)
+	if result:
+		return JsonResponse({'status':10023, 'message':'event name is already exists'})
+	if status == '':
+		status = 1
+	try:
+		Event.objects.create(id=eid,name=name,limite=limite,address=address,status=int(status),start_time=start_time)
+	except ValidationError as e:
+		error = 'start_time format error. It must be in YYYY-MM-DD HH:MM:SS format.'
+		return JsonResponse({'status': 10024, 'message': error})
+	return JsonResponse({'status': 200, 'message': 'add event success'})
 		
 # 查询发布会接口
 def get_event_list(request):

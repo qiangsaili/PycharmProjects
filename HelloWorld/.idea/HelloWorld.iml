@@ -17,6 +17,10 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.6 (HelloWorld)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="pyrequest" />
+    <orderEntry type="module" module-name="pyrequest" />
+    <orderEntry type="module" module-name="pyrequest" />
+    <orderEntry type="module" module-name="arm-test" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
